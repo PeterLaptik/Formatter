@@ -1,6 +1,6 @@
 ### Formatter
 
-Header-only class for filling strings with formatted arguments.   
+Header-only class for filling strings with formatted arguments (C++11).   
 The format specifier is '%?'. Arguments are output into string in the same way as into 'std::cout'.  
 It is possible to manipulate with format flags and settings for output via following methods:
 Flags, Precision, Imbue, SetF, UnSetF (analogues of flags, precision, imbue, setf, and unsetf for ios_base)  

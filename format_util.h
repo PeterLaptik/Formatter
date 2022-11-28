@@ -2,8 +2,10 @@
 #define FORMAT_UTIL_H_INCLUDED
 
 #include <sstream>
+#include <cstring>
 #include <array>
 #include <istream>
+#include <memory>
 
 ///\brief Class for filling strings with formatted arguments.
 /// The format specifier is '%?'.
@@ -103,7 +105,7 @@ class Formatter
         std::ios_base::fmtflags Flags(std::ios_base::fmtflags flags)
         {
             const std::ios_base::fmtflags old_flags = m_flags;
-            m_flags = flags & F_MASK;
+            m_flags = flags;
             return old_flags;
         }
 
@@ -114,7 +116,7 @@ class Formatter
         std::ios_base::fmtflags SetF(std::ios_base::fmtflags flags)
         {
             const std::ios_base::fmtflags old_flags = m_flags;
-            m_flags |= flags & F_MASK;
+            m_flags |= flags;
             return old_flags;
         }
 
@@ -126,7 +128,8 @@ class Formatter
         std::ios_base::fmtflags SetF(std::ios_base::fmtflags flags, std::ios_base::fmtflags mask)
         {
             const std::ios_base::fmtflags old_flags = m_flags;
-            m_flags = (old_flags & ~mask) | (flags & mask & F_MASK);
+            m_flags &= ~mask;
+            m_flags |= (flags & mask);
             return old_flags;
         }
 
@@ -208,12 +211,6 @@ class Formatter
         // The format specifier
         const char *SUBSTITUTE_MASK = "%?";
 
-        enum FlagsEnum
-        {
-            F_MASK = 0xffff,
-            F_ZERO = 0
-        };
-
         // Current locale for formatting
         std::unique_ptr<std::locale> m_ptr_locale;
         // Current set of flags for formatting
@@ -270,8 +267,8 @@ class Formatter
         // stream - stream to get a string value
         // t - type value
         template<typename Stream, typename T,
-                typename It = T::const_iterator,
-                typename Type = T::value_type,
+                typename It = typename T::const_iterator,
+                typename Type = typename T::value_type,
                 typename Begin = decltype(std::declval<T>().begin()),
                 typename End = decltype(std::declval<T>().end())>
         void OutputValue(Stream &stream, const T &t)
