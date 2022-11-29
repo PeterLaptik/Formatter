@@ -7,7 +7,12 @@
 #include <istream>
 #include <memory>
 
-///\brief Class for filling strings with formatted arguments.
+///\brief String formatter.
+///\details Class for filling strings with formatted arguments
+///\author Peter Laptik
+///\version 1.0
+///\date 2022  
+///\copyright BSD 2-Clause License 
 /// The format specifier is '%?'.
 /// Arguments are output into string in the same way as into 'std::cout'.
 /// It is possible to manipulate with format flags and settings for output via following methods:
